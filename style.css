@@ -1,1 +1,34 @@
+body {
+	font-family : sans-serif;
+	margin: 0;
+	padding: 0;
+}
+header {
+	background: #FE9900;
+	color: white;
+	padding: 1rem;
+	text-align: center;
+}
+nav a {
+	color: white;
+	margin: 0 1rem;
+	text-decoration: none;
+}
+main {
+	padding: 2rem;
+	text-align: center;
+}
+.btn {
+	padding: 0.5rem 1 rem;
+	background-color: #FE9900;
+	color: white;
+	text-decoration: none;
+	border-radius: 5px;
+}
+footer {
+	text-align: center;
+	padding: 1rem;
+	background-colour: #FE9900;
+}
+
 
