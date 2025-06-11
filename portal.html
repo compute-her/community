@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Preferences</title>
+</head>
+<body>
+  <h1>Manage Your Photo Consent</h1>
+
+  <form id="loginForm">
+    <label>Code Key: <input type="text" id="codeKey" required></label><br>
+    <label>Password (optional): <input type="password" id="password"></label><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <div id="userInfo" style="display:none;">
+    <h3>Update Preferences</h3>
+    <label>Snapchat: <input type="text" id="Snapchat"></label><br>
+    <label>TikTok: <input type="text" id="TikTok"></label><br>
+    <label>Instagram: <input type="text" id="Instagram"></label><br>
+    <label>Custom Photo Preferences: <textarea id="CustomPhotoPreferences"></textarea></label><br>
+    <button onclick="updatePreferences()">Update</button>
+  </div>
+
+  <script>
+    const endpoint = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const codeKey = document.getElementById('codeKey').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ codeKey, password })
+      });
+
+      const result = await res.json();
+
+      if (result.status === 'OK') {
+        document.getElementById('userInfo').style.display = 'block';
+        ['Snapchat', 'TikTok', 'Instagram', 'Custom Photo Preferences'].forEach(key => {
+          const id = key.replace(/ /g, '');
+          if (document.getElementById(id)) {
+            document.getElementById(id).value = result.data[key] || '';
+          }
+        });
+      } else {
+        alert(result.error || 'Login failed');
+      }
+    });
+
+    async function updatePreferences() {
+      const codeKey = document.getElementById('codeKey').value;
+      const password = document.getElementById('password').value;
+
+      const update = {
+        Snapchat: document.getElementById('Snapchat').value,
+        TikTok: document.getElementById('TikTok').value,
+        Instagram: document.getElementById('Instagram').value,
+        'Custom Photo Preferences': document.getElementById('CustomPhotoPreferences').value,
+      };
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ codeKey, password, update })
+      });
+
+      const result = await res.json();
+      alert(result.status);
+    }
+  </script>
+</body>
+</html>
