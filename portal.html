@@ -1,4 +1,103 @@
 <!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Consent Preferences</title>
+</head>
+<body>
+  <h1>Manage Your Photo Consent</h1>
+
+  <div id="authSection">
+    <button onclick="toggleMode('login')">Login</button>
+    <button onclick="toggleMode('signup')">Sign Up</button>
+  </div>
+
+  <form id="authForm">
+    <label>Code Key: <input type="text" id="codeKey" required></label><br>
+    <label>Password (optional): <input type="password" id="password"></label><br>
+    <label>Name (for sign-up): <input type="text" id="nameField" style="display:none;"></label><br>
+    <label>Student ID (if any): <input type="text" id="studentIdField" style="display:none;"></label><br>
+    <button type="submit" id="submitButton">Login</button>
+  </form>
+
+  <div id="userInfo" style="display:none;">
+    <h3>Update Preferences</h3>
+    <label>Snapchat: <input type="text" id="Snapchat"></label><br>
+    <label>TikTok: <input type="text" id="TikTok"></label><br>
+    <label>Instagram: <input type="text" id="Instagram"></label><br>
+    <label>Custom Photo Preferences: <textarea id="CustomPhotoPreferences"></textarea></label><br>
+    <button onclick="updatePreferences()">Update</button>
+  </div>
+
+  <script>
+    const endpoint = 'https://script.google.com/macros/s/AKfycbwPiTISZmaVthIy01n-e_Y3StZ8jfI6qNjlqW-XLq54YRTuu8ww_p7LA1qx8NUpDbwh/exec';
+    let mode = 'login';
+
+    function toggleMode(newMode) {
+      mode = newMode;
+      document.getElementById('nameField').style.display = (mode === 'signup') ? 'inline' : 'none';
+      document.getElementById('studentIdField').style.display = (mode === 'signup') ? 'inline' : 'none';
+      document.getElementById('submitButton').textContent = (mode === 'signup') ? 'Sign Up' : 'Login';
+    }
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const codeKey = document.getElementById('codeKey').value;
+      const password = document.getElementById('password').value;
+      const name = document.getElementById('nameField').value;
+      const studentId = document.getElementById('studentIdField').value;
+
+      let payload = { codeKey, password };
+
+      if (mode === 'signup') {
+        payload.signup = true;
+        payload.name = name;
+        payload.studentId = studentId;
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+
+      if (result.status === 'OK' || result.status === 'Created') {
+        document.getElementById('userInfo').style.display = 'block';
+        ['Snapchat', 'TikTok', 'Instagram', 'Custom Photo Preferences'].forEach(key => {
+          const id = key.replace(/ /g, '');
+          if (document.getElementById(id)) {
+            document.getElementById(id).value = result.data?.[key] || '';
+          }
+        });
+        alert(result.status === 'Created' ? 'Account created!' : 'Login successful');
+      } else {
+        alert(result.error || 'Something went wrong');
+      }
+    });
+
+    async function updatePreferences() {
+      const codeKey = document.getElementById('codeKey').value;
+      const password = document.getElementById('password').value;
+
+      const update = {
+        Snapchat: document.getElementById('Snapchat').value,
+        TikTok: document.getElementById('TikTok').value,
+        Instagram: document.getElementById('Instagram').value,
+        'Custom Photo Preferences': document.getElementById('CustomPhotoPreferences').value,
+      };
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ codeKey, password, update })
+      });
+
+      const result = await res.json();
+      alert(result.status);
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
 <html lang=”en”>
 <head>
 <meta charset=”TTF-8”>
@@ -10,12 +109,12 @@
 		<h1>Compute.HER</h1>
 		<nav>
 			<a href='index.html'>Home</a>
-			<a href=”about.html”>About Us</a>
-			<a href=”events.html”>Events</a>
-			<a href=”conduct.html”>Code of Conduct</a>
+			<a href='about.html>About Us</a>
+			<a href='events.html'>Events</a>
+			<a href='conduct.html'>Code of Conduct</a>
 			<a href='portal.html'>Photo Preferences</a>
-			<a href=”gallery.html”>Gallery</a>
-			<a href=”contact.html”>Contact</a>
+			<a href='gallery.html'>Gallery</a>
+			<a href='contact.html'>Contact</a>
 		</nav>
 	</header>
 
