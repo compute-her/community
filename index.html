@@ -135,6 +135,23 @@
       background: #333;
     }
     
+    /*Website title header*/
+    .site-header{
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      z-index: 30;
+      text-align: center;
+      padding: 0.5rem 0;
+      box-shadow: none; /*0 1px 4px rgba(0,0,0,0.1); (border-bottom: 1px solid #ccc)*/
+    }
+    .site-header h1{
+      margin:0;
+      font-size:1.8rem;
+      color:#333;
+    }
+    
     /*Top Navigation Bar*/
     nav{
       position: fixed;
@@ -173,6 +190,11 @@
   <div class="dot-indicators" id="dotIndicators">
     <!-- Dots will be inserted by JavaScript -->
   </div>
+
+<!-- WEBSITE TITLE-->
+<header class="site-header">
+    <h1>Compute.HER</h1>
+</header>
 
   <!-- Top Navigation Bar -->
   <nav>
