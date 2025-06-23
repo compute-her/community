@@ -1,34 +1,175 @@
-body {
-	font-family : sans-serif;
-	margin: 0;
-	padding: 0;
-}
-header {
-	background: #FE9900;
-	color: white;
-	padding: 1rem;
-	text-align: center;
-}
-nav a {
-	color: white;
-	margin: 0 1rem;
-	text-decoration: none;
-}
-main {
-	padding: 2rem;
-	text-align: center;
-}
-.btn {
-	padding: 0.5rem 1 rem;
-	background-color: #FE9900;
-	color: white;
-	text-decoration: none;
-	border-radius: 5px;
-}
-footer {
-	text-align: center;
-	padding: 1rem;
-	background-colour: #FE9900;
-}
 
+    /* General page and container styles */
+    body, html {
+      margin: 0;
+      overflow: hidden; /* Prevent the default scrollbars */
+      font-family: sans-serif;
+    }
 
+    /* Main scroll container - horizontally scrollable with snap behavior */
+    .horizontal-scroll-container {
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      width: 100vw;
+      height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    /* Each section acts as a full-screen panel */
+    .panel {
+      flex: 0 0 100vw;         /* Each panel takes up full viewport width */
+      height: 100vh;           /* Full height */
+      scroll-snap-align: start;/* Snaps into place when scrolling */
+      overflow-y: auto;        /* Allows vertical scrolling within each section */
+      box-sizing: border-box;
+      padding-top: 3rem; /* adjusted size from 2rem to give space for the nav*/
+      padding-left: 0rem; /* adjusted size from 2rem so that there is no gap on the left to the image*/
+      background: #f0f0f0;
+      border-right: 1px solid #ccc;
+    }
+    /* ----- section 3 only start---->
+    /*container for image and overlay*/
+    #section3 .s3-banner {
+      position:relative;
+      width:100vw;
+    }
+    /*the image itself (keeps aspect ratio)*/
+    #section3 .s3-image{
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    /* overlay content centered over the image*/
+    #section3 .s3-overlay{
+      position: absolute; /*sits on top of the image only */
+      top:50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.4); /* semi-transparent background for readability */
+      border-radius: 8px;
+    }
+    /* ----- section 3 only end---->
+    .section-text{
+      margin-top: 2rem;
+      padding-bottom: 2rem;
+    }
+    /*responsive image banner background*/
+    .image-banner{
+      width: 100%;
+      padding-top: 40%; /*adjust this to control the aspect ratio (eg 40%=2.5:1) (eg 56.25%=16:9*/
+      background-image:url('https://www.coventry.ac.uk/globalassets/media/global/00-course-images-2223/eec/signposts/frank-whittle-building-767-460.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat; 
+    }
+    
+    /*image elements as wide as viewport (100vw), maintains its aspect ration and appears at top of section. after image ends, scrolling continues with rest of section's content*/
+    .section-image {
+      width: 100vw; /* full width of viewport, height adjusts based on width */
+      height: auto; /*maintain aspect ratio*/
+      display: block; /*removes unwanted spacing under the image */
+    }
+    /* Inner content that’s taller to allow vertical scroll inside a section */
+    .inner-scroll {
+      min-height: 150vh;
+    }
+
+    /* Navigation buttons container */
+    .nav-buttons {
+      position: fixed;
+      top: 50%;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+      pointer-events: none; /* Prevent clicks unless specifically enabled */
+    }
+
+    /* Navigation buttons */
+    .nav-buttons button {
+      pointer-events: auto; /* Re-enable click events for buttons */
+      padding: 1rem;
+      font-size: 1.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Dot indicators container */
+    .dot-indicators {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    /* Individual dot style */
+    .dot-indicators .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    /* Active dot */
+    .dot-indicators .dot.active {
+      background: #333;
+    }
+    
+    /*Website title header*/
+    .site-header{
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      z-index: 30;
+      text-align: center;
+      padding: 0.5rem 0;
+      padding-top:0.8rem; 
+      box-shadow: none; /*0 1px 4px rgba(0,0,0,0.1); (border-bottom: 1px solid #ccc)*/
+    }
+    .site-header h1{
+      margin:0;
+      font-size:1.8rem;
+      color: #FE9900; /*orange*/
+    }
+    
+    /*Top Navigation Bar*/
+    nav{
+      position: fixed;
+      top: 2rem; /* changed from "0" when added header to move the nav bar down slightly so they dont overlap*/
+      left: 0;
+      width: 100%;
+      height:1.5rem;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      padding-bottom: 0.5rem;
+      z-index: 20;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav a:hover{
+      background:#ddd;
+    }
